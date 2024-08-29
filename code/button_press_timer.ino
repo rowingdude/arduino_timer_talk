@@ -1,3 +1,22 @@
+// +--------------------------------------------------------------+
+// | Benjamin Cance                                               |
+// | Email: bjc@tdx.li                                            |
+// +--------------------------------------------------------------+
+// | Code Creation Date: 8/29/2024                                |
+// +--------------------------------------------------------------+
+// | Copyright: 2024                                              |
+// | License: MIT License                                         |
+// +--------------------------------------------------------------+
+// | Contributions, corrections, and comments encouraged.         |
+// +--------------------------------------------------------------+
+// | DISCLAIMER: Use this code at your own risk. The author is    |
+// | not responsible for any damage to hardware or software.      |
+// +--------------------------------------------------------------+
+
+
+// See Wokwi for layout and test run
+// https://wokwi.com/projects/407556590492781569
+
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
