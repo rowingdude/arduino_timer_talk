@@ -1,5 +1,7 @@
 # Introduction
 
+First of all, you can access this text and all code used at my Github repo: https://github.com/rowingdude/arduino_timer_talk
+
 ## Brief overview of Arduino timers
 
 Greetings, this post is sort of a self-teaching tool and also a response to u/3Domese3, but in this post, we're going to experiment with Arduino timers. Forget about those cozy libraries - we're going straight to the metal!
@@ -15,12 +17,17 @@ These registers are the control panel for our timer operations. By manipulating 
 
 The main registers we'll be invoking are:
 
-TCCR1A and TCCR1B - Timer/Counter Control Registers
-TCNT1 - Timer/Counter Register
-OCR1A and OCR1B - Output Compare Registers
-ICR1 - Input Capture Register
-TIMSK1 - Timer Interrupt Mask Register
-TIFR1 - Timer Interrupt Flag Register
+`TCCR1A `and` TCCR1B `- Timer/Counter Control Registers
+
+`TCNT1` - Timer/Counter Register
+
+`OCR1A` and `OCR1B` - Output Compare Registers
+
+`ICR1` - Input Capture Register
+
+`TIMSK1` - Timer Interrupt Mask Register
+
+`TIFR1` - Timer Interrupt Flag Register
 
 You can find the references to these in the header files, but to save you the trouble searching they map directly to 
 
@@ -204,12 +211,12 @@ Basically - code reuse and simplifying the main program file.
 
 The general structure of a header file is:
 
-#ifndef ARDUINO_TIMER_TUTORIAL
-#define ARDUINO_TIMER_TUTORIAL
+	#ifndef ARDUINO_TIMER_TUTORIAL
+	#define ARDUINO_TIMER_TUTORIAL
 
-// Your declarations and definitions go here
+	// Your declarations and definitions go here
 
-#endif // ARDUINO_TIMER_TUTORIAL
+	#endif // ARDUINO_TIMER_TUTORIAL
 
 So we're going to create a header file that references only the registers for the timers we're interested in and then use that to build a simple program at the end of this lesson.
 
