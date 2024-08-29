@@ -46,7 +46,7 @@ For those especially curious, we'll take a look at `TCCR1A` in more detail:
 	|COM1A1|COM1A0|COM1B1|COM1B0|   -|   -|WGM11|WGM10|
 	+----+----+----+----+----+----+----+----+
 	
-Like a **port** these registers are 8-bits wide. `COM1<b><f>` (**COMPARE CHANNEL <b> <f>**) where <b> is the channel bank ( A | B ) and <x> is the bit field ( 0 | 1 ). We then see `WGM10` and `WGM11`, these are **WAVEFORM GENERATOR MODE** selectors, whose full detail is well out of scope here! 
+Like a **port** these registers are 8-bits wide. `COM1<b><f>` = `COMPARE CHANNEL <b> <f>` where <b> is the channel bank ( A | B ) and <x> is the bit field ( 0 | 1 ). We then see `WGM10` and `WGM11`, these are **WAVEFORM GENERATOR MODE** selectors, whose full detail is well out of scope here! 
 
 ## Identifying timer registers - quick definitions!
 
