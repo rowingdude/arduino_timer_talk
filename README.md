@@ -371,7 +371,7 @@ Let's now talk about how we can start triggering the timer. This section will be
 	3. Input Capture
 	4. Overflow
 
-*Configuring Compare Match Interrupt:*
+### Configuring Compare Match Interrupt:
 
 This first example uses a comparison to seek the value of the TIMER1, we will introduce a function in this section call `sei()`, you can [read about sei() here](https://onlinedocs.microchip.com/pr/GUID-317042D4-BCCE-4065-BB05-AC4312DBC2C4-en-US-2/index.html?GUID-4E858AD6-A765-4972-84FE-CD55FC481B2F) but it is a function that "Enables interrupts by setting the global interrupt mask", use this with caution as the source material also warns us that it "implies a memory barrier which can cause additional loss of optimization" [ See footnotes at end of post ].
 
@@ -379,11 +379,11 @@ This first example uses a comparison to seek the value of the TIMER1, we will in
 
 Tasks:
 
-*Set the **compare to** value in OCR1A register.
+- Set the **compare to** value in OCR1A register.
 
-*Enable the interrupt in the TIMSK1 register.
+- Enable the interrupt in the TIMSK1 register.
 
-*Set up an Interrupt Service Routine (ISR).
+- Set up an Interrupt Service Routine (ISR).
 
 
     #include <timer1.h>
@@ -408,9 +408,9 @@ Tasks:
 
 Tasks:
 
-*Enable the overflow interrupt in the TIMSK1 register.
+- Enable the overflow interrupt in the TIMSK1 register.
 
-*Set up an Interrupt Service Routine (ISR).
+- Set up an Interrupt Service Routine (ISR).
 
     #include <timer1.h>
 	
@@ -598,7 +598,7 @@ Now, what does it do?
 Thank you for reading through this. 
 
 
-#Appendicies and further charts, reading, etc.
+# Appendicies and further charts, reading, etc.
 
 ## All Registers discussed in this post:
 
@@ -748,17 +748,17 @@ Thank you for reading through this.
 	| Set a bit                      | REGISTER |= (1 << BIT)            | TCCR1A |= (1 << COM1A1);                  | Set the bit BIT in REGISTER to 1.            |
 	| Clear a bit                    | REGISTER &= ~(1 << BIT)           | TCCR1A &= ~(1 << COM1A0);                 | Clear the bit BIT in REGISTER to 0.          |
 	| Toggle a bit                   | REGISTER ^= (1 << BIT)            | PORTB ^= (1 << PB5);                      | Toggle the bit BIT in REGISTER.              |
-	| Check if set                  | if (REGISTER & (1 << BIT))        | if (TIFR1 & (1 << TOV1))                  | Check if bit BIT in REGISTER is set (1).     |
-	| Check if cleared              | if (!(REGISTER & (1 << BIT)))     | if (!(PIND & (1 << PD2)))                 | Check if bit BIT in REGISTER is cleared (0). |
-	| Set multiple bits             | REGISTER |= (BITS_MASK)           | PORTB |= (1 << PB5) | (1 << PB6);          | Set multiple bits specified by BITS_MASK.    |
-	| Clear multiple bits           | REGISTER &= ~ (BITS_MASK)         | PORTB &= ~(1 << PB5 | 1 << PB6);         | Clear multiple bits specified by BITS_MASK.  |
-	| Toggle multiple bits          | REGISTER ^= (BITS_MASK)           | PORTB ^= (1 << PB5 | 1 << PB6);          | Toggle multiple bits specified by BITS_MASK. |
-	| Check if multiple bits are set| if (REGISTER & (BITS_MASK))       | if (TIFR1 & (1 << TOV1 | 1 << OCF1A))    | Check if any of the bits in BITS_MASK are set. |
+	| Check if set                   | if (REGISTER & (1 << BIT))        | if (TIFR1 & (1 << TOV1))                  | Check if bit BIT in REGISTER is set (1).     |
+	| Check if cleared               | if (!(REGISTER & (1 << BIT)))     | if (!(PIND & (1 << PD2)))                 | Check if bit BIT in REGISTER is cleared (0). |
+	| Set multiple bits              | REGISTER |= (BITS_MASK)           | PORTB |= (1 << PB5) | (1 << PB6);          | Set multiple bits specified by BITS_MASK.    |
+	| Clear multiple bits            | REGISTER &= ~ (BITS_MASK)         | PORTB &= ~(1 << PB5 | 1 << PB6);         | Clear multiple bits specified by BITS_MASK.  |
+	| Toggle multiple bits           | REGISTER ^= (BITS_MASK)           | PORTB ^= (1 << PB5 | 1 << PB6);          | Toggle multiple bits specified by BITS_MASK. |
+	| Check if multiple bits are set | if (REGISTER & (BITS_MASK))       | if (TIFR1 & (1 << TOV1 | 1 << OCF1A))    | Check if any of the bits in BITS_MASK are set. |
 	| Check if multiple bits are cleared | if (!(REGISTER & (BITS_MASK))) | if (!(PIND & (1 << PD2 | 1 << PD3)))    | Check if all of the bits in BITS_MASK are cleared. |
-	| Extract bit value             | bit_value = (REGISTER >> BIT) & 1 | bit_value = (PIND >> PD2) & 1            | Extract the value of a specific bit.             |
-	| Set a bit using mask          | REGISTER |= BIT_MASK              | PORTB |= (1 << PB5 | 1 << PB6);          | Set bits specified by BIT_MASK in REGISTER. |
-	| Clear a bit using mask        | REGISTER &= ~BIT_MASK             | PORTB &= ~(1 << PB5 | 1 << PB6);         | Clear bits specified by BIT_MASK in REGISTER. |
-	| Toggle a bit using mask       | REGISTER ^= BIT_MASK              | PORTB ^= (1 << PB5 | 1 << PB6);          | Toggle bits specified by BIT_MASK in REGISTER. |
+	| Extract bit value              | bit_value = (REGISTER >> BIT) & 1 | bit_value = (PIND >> PD2) & 1            | Extract the value of a specific bit.             |
+	| Set a bit using mask           | REGISTER |= BIT_MASK              | PORTB |= (1 << PB5 | 1 << PB6);          | Set bits specified by BIT_MASK in REGISTER. |
+	| Clear a bit using mask         | REGISTER &= ~BIT_MASK             | PORTB &= ~(1 << PB5 | 1 << PB6);         | Clear bits specified by BIT_MASK in REGISTER. |
+	| Toggle a bit using mask        | REGISTER ^= BIT_MASK              | PORTB ^= (1 << PB5 | 1 << PB6);          | Toggle bits specified by BIT_MASK in REGISTER. |
 	| Check if bits are set using mask | if (REGISTER & BIT_MASK)         | if (TIFR1 & (1 << TOV1 | 1 << OCF1A))    | Check if any bits in BIT_MASK are set.        |
 	| Check if bits are cleared using mask | if (!(REGISTER & BIT_MASK))   | if (!(PIND & (1 << PD2 | 1 << PD3)))    | Check if all bits in BIT_MASK are cleared.    |
 	+-------------------------------+----------------------------------+-------------------------------------------+--------------------------------------------------+
