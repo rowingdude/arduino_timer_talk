@@ -19,7 +19,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
-#define LED_PIN 9  // OC1A
+#define LED_PIN 9  
 #define MODE_PIN 7
 
 volatile uint8_t mode = 0;
