@@ -9,7 +9,7 @@ First things first, let's identify the key players in our timing game. The most 
 
 While Arduino libraries are great for beginners, diving into direct timer manipulation opens up a world of precision and efficiency. It's like switching from an automatic transmission to a manual - you gain complete control over your timing operations, allowing for more complex and optimized applications.
 
-#Timer Registers and Their Addresses
+# Timer Registers and Their Addresses
 
 These registers are the control panel for our timer operations. By manipulating them directly, we're essentially speaking the microcontroller's native language, allowing for faster execution and finer control than high-level Arduino functions could ever provide.
 
@@ -46,7 +46,7 @@ For those especially curious, we'll take a look at `TCCR1A` in more detail:
 	|COM1A1|COM1A0|COM1B1|COM1B0|   -|   -|WGM11|WGM10|
 	+----+----+----+----+----+----+----+----+
 	
-Like a *port* these registers are 8-bits wide. `COM1<b><f>` (**COMPARE CHANNEL <b> <f>**) where <b> is the channel bank ( A | B ) and <x> is the bit field ( 0 | 1 ). We then see `WGM10` and `WGM11`, these are **WAVEFORM GENERATOR MODE** selectors, whose full detail is well out of scope here! 
+Like a **port** these registers are 8-bits wide. `COM1<b><f>` (**COMPARE CHANNEL <b> <f>**) where <b> is the channel bank ( A | B ) and <x> is the bit field ( 0 | 1 ). We then see `WGM10` and `WGM11`, these are **WAVEFORM GENERATOR MODE** selectors, whose full detail is well out of scope here! 
 
 ## Identifying timer registers - quick definitions!
 
@@ -178,7 +178,7 @@ Though we'll touch on this more in the next section, you can access these memory
 	// Another example is to create a pointer to read TCNT1
 	uint16_t timerValue = *((volatile uint16_t *)0x84);  
 	
-*Please Note*: When you use this in your own projects, The `volatile` keyword is _crucial_ here as it tells the compiler that the value at this memory location can change unexpectedly. The compiler uses this information to determine how to handle the data here, in our case, the compiler will not attempt to optimize access - reads or writes. All hardware memory addresses are subject to change at any time, despite the best attempts of the programmers due to environmental and even manufacturing defects/hardware interference. 
+**Please Note**: When you use this in your own projects, The `volatile` keyword is _crucial_ here as it tells the compiler that the value at this memory location can change unexpectedly. The compiler uses this information to determine how to handle the data here, in our case, the compiler will not attempt to optimize access - reads or writes. All hardware memory addresses are subject to change at any time, despite the best attempts of the programmers due to environmental and even manufacturing defects/hardware interference. 
 
 Understanding these memory-mapped I/O addresses is like having the keys to the kingdom. It allows us to bypass the abstraction layers and communicate directly with the hardware. It's powerful stuff, but remember - with great power comes great responsibility. One wrong move here could throw your entire system into chaos!
 
@@ -371,7 +371,7 @@ Let's now talk about how we can start triggering the timer. This section will be
 	3. Input Capture
 	4. Overflow
 
-### Configuring Compare Match Interrupt:
+## Configuring Compare Match Interrupt:
 
 This first example uses a comparison to seek the value of the TIMER1, we will introduce a function in this section call `sei()`, you can [read about sei() here](https://onlinedocs.microchip.com/pr/GUID-317042D4-BCCE-4065-BB05-AC4312DBC2C4-en-US-2/index.html?GUID-4E858AD6-A765-4972-84FE-CD55FC481B2F) but it is a function that "Enables interrupts by setting the global interrupt mask", use this with caution as the source material also warns us that it "implies a memory barrier which can cause additional loss of optimization" [ See footnotes at end of post ].
 
@@ -561,7 +561,7 @@ To build an HPET, we need to track a hardware event and keep track of its durati
 
 I have always been a fan of EDM, so this was a project I tackled early on when learning to program. But this was my first time experimenting with it on an Arduino. So what this project uses is two slide switches to replicate the three position switch I had in my Radioshack kit. The truth table for these is:
 
-*This project is this post's coup d'grace, it shows nearly everything we covered here, in detail, and I've gone to great lengths to make it as accessible as possible by encapsulating as many manipulations in helper functions. My goal in this example was to have you read through the main execution path and then go back and see how it works as you go.*
+####This project is this post's coup d'grace, it shows nearly everything we covered here, in detail, and I've gone to great lengths to make it as accessible as possible by encapsulating as many manipulations in helper functions. My goal in this example was to have you read through the main execution path and then go back and see how it works as you go.
 
 So what does it do? [First, the project is also hosted on Wokwi here...]()
 
