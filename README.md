@@ -1,11 +1,11 @@
 # Introduction
 
-##Brief overview of Arduino timers
+## Brief overview of Arduino timers
 
 Greetings, this post is sort of a self-teaching tool and also a response to u/3Domese3, but in this post, we're going to experiment with Arduino timers. Forget about those cozy libraries - we're going straight to the metal!
 First things first, let's identify the key players in our timing game. The most common timer and the one we'll focus the most on is Timer1, which is a 16-bit timer available on most Arduino boards.
 
-##Importance of direct timer manipulation
+## Importance of direct timer manipulation
 
 While Arduino libraries are great for beginners, diving into direct timer manipulation opens up a world of precision and efficiency. It's like switching from an automatic transmission to a manual - you gain complete control over your timing operations, allowing for more complex and optimized applications.
 
@@ -48,7 +48,7 @@ For those especially curious, we'll take a look at `TCCR1A` in more detail:
 	
 Like a *port* these registers are 8-bits wide. `COM1<b><f>` (**COMPARE CHANNEL <b> <f>**) where <b> is the channel bank ( A | B ) and <x> is the bit field ( 0 | 1 ). We then see `WGM10` and `WGM11`, these are **WAVEFORM GENERATOR MODE** selectors, whose full detail is well out of scope here! 
 
-##Identifying timer registers - quick definitions!
+## Identifying timer registers - quick definitions!
 
 Note: I have included bitfield maps where I could easily draw them up, some of these timers have deep reaches which makes it a bit too cumbersome to spend a lot of time digging for (sorry)...
 
@@ -140,7 +140,7 @@ Bit field definitions:
 **Whew! I have included these bit field maps to give you a detailed view of what each bit in these registers controls. When directly manipulating timers, you'll often be setting or clearing specific bits in these registers to achieve the desired timer behavior.**
 
 
-##Memory-mapped I/O addresses
+## Memory-mapped I/O addresses
 
 In this section, I'd like to introduce you to the concept of memory mapped I/O. These are the exact memory locations where our timer registers live. On the ATmega328P (Uno R3, Nano), these registers are mapped to specific addresses in the microcontroller's memory space.
 
@@ -184,7 +184,7 @@ Understanding these memory-mapped I/O addresses is like having the keys to the k
 
 #Creating a Timer Definitions Header File
 
-##Purpose of the header file
+## Purpose of the header file
 
 Now that you've hopefully survived the background information, we can talk about how to use these Timers. First, we're going to create a header file to succinctly hold the Timer registers of interest.
 
@@ -200,7 +200,7 @@ Header files in C++ typically have a .h extension. They're used to:
 Basically - code reuse and simplifying the main program file. 
 
 
-##Structure and content
+## Structure and content
 
 The general structure of a header file is:
 
@@ -263,7 +263,7 @@ I'd also be remiss if I didn't say that we also should use header files for port
 
 Now that we have a pretty good foundation, let's start doing something useful. We'll be referencing the above timer1.h file, so look there if you're curious about what a macro stands for. 
 
-##Understanding timer modes
+## Understanding timer modes
 
 Recall that Timer1 sets the Waveform Generation Mode (WGM) bits in TCCR1A and TCCR1B, there are 16 total modes of operation for Timer1, they are controlled by the `WGM13:0` bits.
 
@@ -310,7 +310,7 @@ If you find the syntax confusing, please review [Bitwise Operations](https://en.
 
 The key takeaway here is that understanding these modes is crucial using Timer1's full potential. Each mode has its strengths and is suited for different applications.
 
-##Setting prescalers
+## Setting prescalers
 
 First of all, what is a pre-scalar? I analogize them to **gear ratios**, selecting the right prescaler is like choosing the right gear in a car. Too low, and you'll redline your timer before you know it. Too high, and you'll be crawling along, missing all the action. It's all about finding that sweet spot for your specific application.
 
@@ -332,7 +332,7 @@ In a similar way, let's set our prescalar to 1024.
 	TIMER1_CONTROL_B |= (1 << CS12) | (1 << CS10); //set CS12 and CS10 to 1.
 	TIMER1_CONTROL_B &= ~(1 << CS11);              //clears the CS11 bit to 0
 	
-##Why do I need to know this?
+## Why do I need to know this?
 
 Let's say we're using a 16 MHz Arduino and we want Timer1 to increment every 1 μs... let's work out our prescalar value and implement it.
 
@@ -362,7 +362,7 @@ It's a balancing act between resolution, maximum time, and the specific timing n
 	
 
 
-##Configuring compare match and overflow interrupts
+## Configuring compare match and overflow interrupts
 
 Let's now talk about how we can start triggering the timer. This section will be more code type examples rather than my humdrum explainations. I've prepared code snippets of each of the following generalized topics.
 
@@ -460,13 +460,13 @@ Key Points:
 
 #Code Snippets and Examples
 
-##Illustrative snippets for each concept
+## Illustrative snippets for each concept
 
 To sort of demonstrate some of these concepts, I will include an "real life" example from my own studies. This sketch simply flashes the onboard LED on an Arduino nano (pin 13). If Wokwi had an oscilloscope, we'd attach it to pin 8 and it would show a square wave.
 
 [You can view the demonstration and code here.](https://wokwi.com/projects/407487610175451137)
 
-##Arduinoesque Timer Implementation
+## Arduinoesque Timer Implementation
 
 Now, the LED example is fine, but this will give you some insight into the inner workings of our Arduino libraries.
 
@@ -536,20 +536,20 @@ We can contrast that with `delay()`:
 
 Hopefully this helps you understand why everyone will recommend `millis()` over `delay()` in your sketches.
 
-##Traffic light w/ Pedestrian button.
+## Traffic light w/ Pedestrian button.
 
 I'm sure you've all been at a crosswalk and pressed the button eagerly hoping to get across a busy road faster, ever wonder how those work?
 
 [This is a pretty comprehensive sample of a traffic light system](https://wokwi.com/projects/407493956117131265), I made a bunch of helper functions to clearly illustrate what each step does and populated them with the appropiate register bit shifts.
 
 
-##Multiple Timers - Dimming LEDs
+## Multiple Timers - Dimming LEDs
 
 One of the more interesting aspects of timing is using many together. In this example, Timer1 is set up for 10-bit PWM to control LED brightness, while Timer2 triggers a mode change every second. The idea is to create a 
 
 This is a [dimming LED example](https://wokwi.com/projects/407555272630754305), in it, we are employing Timer1 through the TCCR1* registers to set the PWM. Timer2 is used oscillate the LED though its modes on one-second intervals. We employ an unused pin as a global state tracker. 
 
-##HPET - High Precision Event Timing
+## HPET - High Precision Event Timing
 
 I'd be remiss if I didn't include an HPET in any post about timers. An [HPET](https://en.wikipedia.org/wiki/High_Precision_Event_Timer) on PCs is a module in the CPU construction. Sadly, our trust 328p has no hardware HPET, so we must build one when we need it.
 
@@ -557,7 +557,7 @@ To build an HPET, we need to track a hardware event and keep track of its durati
 
 [You can view the code and play with the example on Wokwki here.](https://wokwi.com/projects/407556590492781569)
 
-##Frequency synthesizer via PWM
+## Frequency synthesizer via PWM
 
 I have always been a fan of EDM, so this was a project I tackled early on when learning to program. But this was my first time experimenting with it on an Arduino. So what this project uses is two slide switches to replicate the three position switch I had in my Radioshack kit. The truth table for these is:
 
@@ -600,7 +600,7 @@ Thank you for reading through this.
 
 #Appendicies and further charts, reading, etc.
 
-##All Registers discussed in this post:
+## All Registers discussed in this post:
 
 	+----------+-------------------+--------+------------------------------------------+
 	| Register | Name              | Address| Function                                 |
@@ -629,7 +629,7 @@ Thank you for reading through this.
 	|          | Interrupt Flag    |        | pending timer interrupts                 |
 	+----------+-------------------+--------+------------------------------------------+
 
-##Timer1 Interrupt Vector Table
+## Timer1 Interrupt Vector Table
 
 	+-------------------+-------------------+----------------------------------+
 	| Interrupt Vector  | Vector Address    | Description                      |
@@ -640,7 +640,7 @@ Thank you for reading through this.
 	| TIMER1_OVF_vect   | 0x0016 (0x0028)   | Timer1 Overflow                  |
 	+-------------------+-------------------+----------------------------------+
 
-##Clock Select Pin Values
+## Clock Select Pin Values
 
 	+-------------------+-----------------------------------------------+
 	| CS12, CS11, CS10  | Description                                   |
@@ -655,7 +655,7 @@ Thank you for reading through this.
 	| 111               | External clock source on T1 pin, rising edge  |
 	+-------------------+-----------------------------------------------+
 
-##Calculating the approximate prescalar:
+## Calculating the approximate prescalar:
 
 	+---------------+-----------------------------+-----------------------------+
 	| Clock Source  | Timer Frequency             | Overflow Frequency          |
@@ -665,7 +665,7 @@ Thank you for reading through this.
 	+---------------+-----------------------------+-----------------------------+
 
 	
-##Timer1 Prescalar Selection Table
+## Timer1 Prescalar Selection Table
 
 	+------+------+------+------------------------+----------------------------+
 	| CS12 | CS11 | CS10 | Description            | Prescaler Division Factor  |
@@ -680,7 +680,7 @@ Thank you for reading through this.
 	|  1   |  1   |  1   | External clock (T1)    | Rising edge                |
 	+------+------+------+------------------------+----------------------------+
 
-##Prescalar Effects on Resolution
+## Prescalar Effects on Resolution
 
 	+------------+-----------------+---------------------+----------------------+
 	| Prescaler  | Timer Frequency | Timer Resolution    | Max Measurable Time  |
@@ -693,7 +693,7 @@ Thank you for reading through this.
 	| 1024       | 15.625 kHz      | 64 µs               | 4.194304 s           |
 	+------------+-----------------+---------------------+----------------------+
 
-## Timer1 WGM Selection Table:
+##  Timer1 WGM Selection Table:
 
 	+------+------+------+------+----------------+----------+------------------+
 	| WGM13| WGM12| WGM11| WGM10| Timer/Counter  | TOP      | Update of OCR1x  |
@@ -727,7 +727,7 @@ Thank you for reading through this.
 	|  1   |  1   |  1   |  1   | Fast PWM       | OCR1A    | BOTTOM           |
 	+------+------+------+------+----------------+----------+------------------+
 
-##Timer Application Quick-Reference
+## Timer Application Quick-Reference
 
 	+------------------+-------------------+----------------------------------+
 	| Application      | Timer Mode        | Typical Configuration            |
@@ -740,7 +740,7 @@ Thank you for reading through this.
 	| Motor Control    | Phase Correct PWM | Adjust OCR1A/B for speed control |
 	+------------------+-------------------+----------------------------------+
 
-##Common AVR/Arduino Bit Manipulations:
+## Common AVR/Arduino Bit Manipulations:
 
 	+-------------------------------+---------------------------------+-------------------------------------------+--------------------------------------------------+
 	| Operation                      | C Syntax                          | Example                                   | Description                                      |
